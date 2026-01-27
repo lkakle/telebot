@@ -1,4 +1,3 @@
-from os import getenv
 import asyncio
 from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
@@ -9,7 +8,7 @@ load_dotenv()
 
 async def main():
 
-    bot = Bot(token=getenv("BOT_TOKEN"))
+    bot = Bot(token=("TOKEN"))
     dp = Dispatcher()
     dp.include_routers(routes.router, weather.router, base.router)
     
