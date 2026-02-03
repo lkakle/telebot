@@ -6,11 +6,11 @@ router = Router()
 
 @router.message(Command("start"))
 async def start(message: Message):
-    await message.answer("Команды:\n/all_users_ids\n/help\nПогода ваш город")
+    await message.answer("Команды:\n/all_users_ids\n/help\nПогода ваш город\n@ Ваш вопрос ИИ помощнику?")
 
 @router.message(Command("help"))
 async def start(message: Message):
-    await message.answer("Команды:\n/all_users_ids\n/help\nПогода ваш город\nРазработка: @qikss")
+    await message.answer("Команды:\n/all_users_ids\n/help\nПогода ваш город\n@ Ваш вопрос ИИ помощнику?\nРазработка: @qikss")
 
 
 
