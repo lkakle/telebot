@@ -1,8 +1,14 @@
+import os
+from dotenv import load_dotenv
 from aiogram import Router, F
 from aiogram.types import Message
 import requests
 import datetime
 import math
+
+load_dotenv()
+WEATHER_API = os.getenv("WEATHER_API")
+
 
 router = Router()
 
@@ -20,7 +26,7 @@ code_to_smile = {
 async def message_hundler(message: Message):
     country = message.text.lower().split()
     try:
-        response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={country[1]}&lang=ru&units=metric&APPID=1da32ea2a1a3f1f1fdaa1f205f6f71d6", timeout=10)
+        response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={country[1]}&lang=ru&units=metric&APPID={WEATHER_API}", timeout=10)
         data = response.json()
         city = data["name"]
         cur_temp = data["main"]["temp"]
