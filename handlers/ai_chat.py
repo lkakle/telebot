@@ -37,7 +37,7 @@ async def message_hundler(message: Message):
 
         response = response.choices[0].message
 
-        await message.answer(response.content)
+        await message.answer(response.content, parse_mode="MarkdownV2")
 
         last_question = question
         last_response_content = response.content
@@ -65,7 +65,7 @@ async def message_hundler(message: Message):
 
         response = response.choices[0].message
 
-        await message.answer(response.content)
+        await message.answer(response.content, parse_mode="MarkdownV2")
 
         last_question = question
         last_response_content = response.content
