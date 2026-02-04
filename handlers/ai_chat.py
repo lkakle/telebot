@@ -1,5 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import Message
+from aiogram.enums.parse_mode import ParseMode
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
@@ -37,7 +38,7 @@ async def message_hundler(message: Message):
 
         response = response.choices[0].message
 
-        await message.answer(response.content, parse_mode="MarkdownV2")
+        await message.answer(response.content, parse_mode=ParseMode.MARKDOWN)
 
         last_question = question
         last_response_content = response.content
@@ -65,7 +66,7 @@ async def message_hundler(message: Message):
 
         response = response.choices[0].message
 
-        await message.answer(response.content, parse_mode="MarkdownV2")
+        await message.answer(response.content, parse_mode=ParseMode.MARKDOWN)
 
         last_question = question
         last_response_content = response.content
