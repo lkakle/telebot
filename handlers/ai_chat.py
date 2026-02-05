@@ -18,34 +18,14 @@ client = OpenAI(
   api_key=os.getenv("AI_KEY"),
 )
 
+
 @router.message(F.text.lower().split()[0] == '@')
 async def message_hundler(message: Message):
     global last_question, last_response_content, last_response_reasoning_details
+    question = message.text.replace("@", "")
     if last_question == None and last_response_content == None and last_response_reasoning_details == None:
-        question = message.text.replace("@", "")
-
-        response = client.chat.completions.create(
-        model="stepfun/step-3.5-flash:free",
-        messages=[
-        {
-            "role":"user",
-            "content":question
-        }
-            ],
-
-        extra_body={"reasoning": {"enabled": True}}
-        )
-
-        response = response.choices[0].message
-
-        await message.answer(response.content, parse_mode=ParseMode.MARKDOWN)
-
-        last_question = question
-        last_response_content = response.content
-        last_response_reasoning_details = response.reasoning_details
-
+        messages=[{"role":"user","content":question}]
     else:
-        question = message.text.replace("@", "")
         messages = [
             {"role": "user",
             "content" :last_question},
@@ -54,20 +34,19 @@ async def message_hundler(message: Message):
                 "content": last_response_content,
                 "reasoning_details": last_response_reasoning_details 
             },
-            {"role":"user","content":question}
+            {"role":"user",
+             "content":question}
         ]
 
+    response = client.chat.completions.create(
+    model="stepfun/step-3.5-flash:free",
+    messages=messages, 
+    extra_body={"reasoning": {"enabled": True}})
 
-        response = client.chat.completions.create(
-        model="stepfun/step-3.5-flash:free",
-        messages=messages, 
-        extra_body={"reasoning": {"enabled": True}}
-        )
+    response = response.choices[0].message
 
-        response = response.choices[0].message
+    await message.answer(response.content, parse_mode=ParseMode.MARKDOWN)
 
-        await message.answer(response.content, parse_mode=ParseMode.MARKDOWN)
-
-        last_question = question
-        last_response_content = response.content
-        last_response_reasoning_details = response.reasoning_details
+    last_question = question
+    last_response_content = response.content
+    last_response_reasoning_details = response.reasoning_details
